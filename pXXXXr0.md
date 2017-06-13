@@ -98,6 +98,8 @@ namespace my { // re-enter my namespace
 
 Breaking out of our own namespace like in this way, adding some specializations to namespace `std`, and then re-entering our own namespace is messy; it breaks the "flow" of a header file. For this reason, specializations like this are often tucked away at the bottom of a header, far away from where they (logically) belong, and where they can easily be overlooked during refactoring. With function customisation points like `get()` and `swap()` this is mitigated by the use of unqualified calls and ADL, but for class specializations like those required for hashing and structured bindings there is no alternative but to do the "namespace dance".
 
+Additionally, having to break out of your own namespace makes it impossible to write a header that might be included within a namespace that uses those customization points. We agree that this is not a huge issue, and rather a marginally useful one, but enabling this use case would be useful.
+
 ## Proposal ##
 
 We should allow defining specializations of class templates in unrelated namespaces by fully-qualifying (including a leading `::`) the name of the type begin specialized, as in:
